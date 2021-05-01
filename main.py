@@ -1,6 +1,9 @@
 from typing import List, Dict, Union
 from collections import Counter
 from re import sub
+from sys import exit
+from os import getcwd
+from os.path import join
 
 
 def read_and_list_input(input_file_name: str) -> List[Union[int, float]]:
@@ -12,13 +15,13 @@ def read_and_list_input(input_file_name: str) -> List[Union[int, float]]:
             try:
                 input_list.append(int(item))
             except ValueError:
-                number_check = elem_is_not_digit(item)
+                number_check = item_is_not_digit(item)
                 if not isinstance(number_check, str):
                     input_list.append(number_check)
     return input_list
 
 
-def elem_is_not_digit(item: str) -> Union[int, float, str]:
+def item_is_not_digit(item: str) -> Union[int, float, str]:
     regex = '[^0-9.]'
     try:
         return int(sub(regex, '', item))
@@ -57,8 +60,25 @@ def write_output(pairs: List):
     output_file.close()
 
 
+def main():
+    while True:
+        input_file = input('If you want to quit write "q"\n'
+                           'Otherwise, indicate the input .txt file you want to process: ')
+        if not input_file.lower().strip() == 'q':
+            try:
+                input_list = read_and_list_input(input_file)
+            except FileNotFoundError:
+                print("No such file in the directory: " + getcwd())
+                continue
+            counter_dict = count_items(input_list)
+            pairs = pairs_finder(counter_dict)
+            write_output(pairs)
+            print(join(getcwd(), input_file))
+            exit()
+        else:
+            print("Bye!")
+            exit()
+
+
 if __name__ == '__main__':
-    input_list = read_and_list_input('input_long.txt')
-    counter_dict = count_items(input_list)
-    pairs = pairs_finder(counter_dict)
-    write_output(pairs)
+    main()
