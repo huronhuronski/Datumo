@@ -1,14 +1,16 @@
-from main import read_and_list_input, item_is_not_digit, count_items, pairs_finder
+from main import read_local_input, list_input, item_is_not_digit, count_items, pairs_finder
 
 
 # input parsing tests
 def test_reading_input_blank_strings():
-    input_list = read_and_list_input('input_blank_and_strings.txt')
+    input_file = read_local_input('input_blank_and_strings.txt')
+    input_list = list_input(input_file)
     assert input_list == [4, 8, 9, 0, 12, 1, 4, 2, 12, 12, 4, 4, 12, 0]
 
 
 def test_reading_input_decimal():
-    input_list = read_and_list_input('input_decimal.txt')
+    input_file = read_local_input('input_decimal.txt')
+    input_list = list_input(input_file)
     assert input_list == [9, 5.5, 6.5, 3, 5, 5, 5, 6, 8, 3, 7, 1, 1, 11, 12, 12]
 
 
@@ -30,14 +32,16 @@ def test_item_is_not_digit3(item=' .'):
 
 # counting items tests
 def test_counting_values_basic():
-    input_list = read_and_list_input('input_basic.txt')
+    input_file = read_local_input('input_basic.txt')
+    input_list = list_input(input_file)
     counted_items = count_items(input_list)
     assert counted_items == {4: 4, 8: 2, 9: 1, 0: 2, 12: 4, 1: 1, 2: 1, 11: 1}
 
 
 # pair finder test
 def test_pair_finder_input_long():
-    input_list = read_and_list_input('input_long.txt')
+    input_file = read_local_input('input_long.txt')
+    input_list = list_input(input_file)
     counted_items = count_items(input_list)
     pairs = pairs_finder(counted_items)
     assert pairs == [[4, 8], [4, 8], [4, 8], [4, 8], [4, 8], [12, 0], [3, 9],

@@ -1,23 +1,27 @@
-from typing import List, Dict, Union
 from collections import Counter
-from re import sub
-from sys import exit
 from os import getcwd
 from os.path import join
+from re import sub
+from sys import exit
+from typing import List, Dict, Union
 
 
-def read_and_list_input(input_file_name: str) -> List[Union[int, float]]:
+def read_local_input(input_file_name: str) -> str:
     with open(input_file_name, 'r') as input_file:
         input_string = input_file.readline()
-        input_list = []
-        for item in input_string.split(','):
-            item = item.strip()
-            try:
-                input_list.append(int(item))
-            except ValueError:
-                number_check = item_is_not_digit(item)
-                if not isinstance(number_check, str):
-                    input_list.append(number_check)
+    return input_string
+
+
+def list_input(input_string: str) -> List[Union[int, float]]:
+    input_list = []
+    for item in input_string.split(','):
+        item = item.strip()
+        try:
+            input_list.append(int(item))
+        except ValueError:
+            number_check = item_is_not_digit(item)
+            if not isinstance(number_check, str):
+                input_list.append(number_check)
     return input_list
 
 
@@ -66,7 +70,8 @@ def main():
                            'Otherwise, indicate the input .txt file you want to process: ')
         if not input_file.lower().strip() == 'q':
             try:
-                input_list = read_and_list_input(input_file)
+                input_string = read_local_input(input_file)
+                input_list = list_input(input_string)
             except FileNotFoundError:
                 print("No such file in the directory: " + getcwd())
                 continue
