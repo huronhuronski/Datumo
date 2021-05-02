@@ -29,3 +29,7 @@ def upload_file():
             write_output(pairs)
         return send_file('output.txt', attachment_filename='output.txt',
                          as_attachment=True, mimetype='text/plain')
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
