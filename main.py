@@ -7,12 +7,22 @@ from typing import List, Dict, Union
 
 
 def read_local_input(input_file_name: str) -> str:
+    """Returns string that can be later parsed and converted to list.
+
+    Function reads first line of indicated text file.
+    File has to be located in same directory as this module.
+    """
     with open(input_file_name, 'r') as input_file:
         input_string = input_file.readline()
     return input_string
 
 
 def list_input(input_string: str) -> List[Union[int, float]]:
+    """Returns list of integers (and/or floats) derived from input file.
+
+    This function uses help of item_is_not_digit() function in cases
+    when item cannot be converted to integer right away.
+    """
     input_list = []
     for item in input_string.split(','):
         item = item.strip()
@@ -26,6 +36,11 @@ def list_input(input_string: str) -> List[Union[int, float]]:
 
 
 def item_is_not_digit(item: str) -> Union[int, float, str]:
+    """Evaluates disrupted input.
+
+    It tries to pull out a numerical value from input: integer or float (if input contains ".").
+    If numerical value cannot be pulled out, function returns NaN (not a number).
+    """
     regex = '[^0-9.]'
     try:
         return int(sub(regex, '', item))
@@ -37,11 +52,19 @@ def item_is_not_digit(item: str) -> Union[int, float, str]:
 
 
 def count_items(input_list: List[Union[int, float]]) -> Dict[Union[int, float], int]:
+    """Returns dictionary with numbers from input list in keys and how many times they appeared in values."""
     counter = Counter(input_list)
     return dict(counter)
 
 
 def pairs_finder(counter_dict: Dict[Union[int, float], int]) -> List:
+    """Returns list of numbers that add up to 12.
+
+    It firstly calculates a complementary number for one that is being evaluated.
+    Then it starts for loop that checks how many times number under evaluation can form a pair.
+    Exception for number 6, it needs to have at least value 2 to form a pair (not like other numbers).
+    If complementary number is not present in dict then inner for loop gets terminated.
+    """
     pairs = []
     for key, value in counter_dict.items():
         complementary = 12 - key
@@ -58,6 +81,7 @@ def pairs_finder(counter_dict: Dict[Union[int, float], int]) -> List:
 
 
 def write_output(pairs: List):
+    """Function writes pairs of numbers into output.txt file in same directory as this module."""
     output_file = open('output.txt', 'w')
     for pair in pairs:
         output_file.write(str(pair) + ' ')
@@ -65,8 +89,9 @@ def write_output(pairs: List):
 
 
 def main():
+    """Function that executes this program in terminal."""
     while True:
-        input_file = input('If you want to quit write "q"\n'
+        input_file = input('If you want to quit, write "q"\n'
                            'Otherwise, indicate the input .txt file you want to process: ')
         if not input_file.lower().strip() == 'q':
             try:
